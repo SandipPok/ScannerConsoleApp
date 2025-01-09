@@ -132,8 +132,7 @@ namespace ScanExportApp
         // Export the scanned images as a single photo (JPG/PNG)
         static void ExportAsImage()
         {
-            Console.WriteLine("Enter the file path to save the image (e.g., C:\\path\\to\\output.jpg): ");
-            string savePath = Console.ReadLine();
+            string savePath = GetFileSavePath(".jpg");
 
             if (string.IsNullOrEmpty(savePath))
             {
@@ -151,8 +150,7 @@ namespace ScanExportApp
         // Export the scanned images as a PDF
         static void ExportAsPdf()
         {
-            Console.WriteLine("Enter the file path to save the PDF (e.g., C:\\path\\to\\output.pdf): ");
-            string savePath = Console.ReadLine();
+            string savePath = GetFileSavePath(".pdf");
 
             //Create a new PDF document
             PdfDocument pdf = new PdfDocument();
@@ -193,8 +191,7 @@ namespace ScanExportApp
         // Export the scanned images as a Word document
         static void ExportAsWord()
         {
-            Console.WriteLine("Enter the file path to save the Word document (e.g., C:\\path\\to\\output.docx): ");
-            string savePath = Console.ReadLine();
+            string savePath = GetFileSavePath(".docx");
 
             using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(savePath, DocumentFormat.OpenXml.WordprocessingDocumentType.Document))
             {
@@ -234,6 +231,23 @@ namespace ScanExportApp
             {
                 Console.WriteLine($"Property {propertyId} not found");
             }
+        }
+
+        static string GetFileSavePath(string extension)
+        {
+            // Define the folder path on the Desktop
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string folderPath = Path.Combine(desktopPath, "ScannedDocuments");
+
+            // Create the folder if it doesn't exist
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+            }
+
+            // Generate a unique filename using the current date and time
+            string uniqueFileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + extension;
+            return Path.Combine(folderPath, uniqueFileName);
         }
     }
 }
