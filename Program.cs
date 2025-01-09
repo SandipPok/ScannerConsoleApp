@@ -260,6 +260,10 @@ namespace ScanExportApp
         {
             Console.WriteLine("Scanner App - .NET 8");
 
+            Console.WriteLine("\nPress any key to scan:");
+
+            Console.ReadKey();
+
             while (true)
             {
                 Console.WriteLine("Scanning Document...");
@@ -321,6 +325,12 @@ namespace ScanExportApp
             if (deviceManager.DeviceInfos.Count == 0)
             {
                 Console.WriteLine("No devices found. Please check if your scanner is connected and powered on, and that the WIA service is running.");
+                Console.WriteLine("-----------------------------------");
+                Console.WriteLine("Press any key if your are ready.");
+                Console.WriteLine("-----------------------------------");
+
+                Console.ReadKey();
+
                 return;
             }
 
